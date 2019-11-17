@@ -1,0 +1,32 @@
+name: Nodejs
+# This workflow is triggered on pushes to the repository.
+on: push
+
+jobs:
+  build:
+    name: Nodejs
+    # This job runs on Linux
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Docker build
+        run: docker build -t pohfy123/nodejs-example:latest .
+
+      - name: Test
+        run: docker run --rm -i pohfy123/nodejs-example:latest yarn test
+
+      - name: Docker Login
+        if: github.ref == 'refs/heads/master'
+        uses: azure/container-actions/docker-login@master
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Docker push 
+        if: github.ref == 'refs/heads/master'
+        run: docker push pohfy123/nodejs-example:latest
+
+      - name: Docker Logout
+        if: github.ref == 'refs/heads/master' && always()
+        uses: azure/container-actions/docker-logout@master
