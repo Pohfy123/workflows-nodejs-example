@@ -7,16 +7,21 @@ jobs:
     name: Nodejs
     # This job runs on Linux
     runs-on: ubuntu-latest
+    env:
+      HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      HEROKU_APP: pohfy-nodejs-example
+      IMAGE_NAME: pohfy123/nodejs-example
+      IMAGE_TAG: latest
     steps:
       - uses: actions/checkout@v1
 
       - name: Docker build
-        run: docker build -t pohfy123/nodejs-example:latest .
+        run: docker build -t $IMAGE_NAME:$IMAGE_TAG .
 
       - name: Test
-        run: docker run --rm -i pohfy123/nodejs-example:latest yarn test
+        run: docker run --rm -i $IMAGE_NAME:$IMAGE_TAG yarn test
 
-      - name: Docker Login
+      - name: Docker login
         if: github.ref == 'refs/heads/master'
         uses: azure/container-actions/docker-login@master
         with:
@@ -25,8 +30,32 @@ jobs:
 
       - name: Docker push 
         if: github.ref == 'refs/heads/master'
-        run: docker push pohfy123/nodejs-example:latest
+        run: docker push $IMAGE_NAME:$IMAGE_TAG
 
-      - name: Docker Logout
+      - name: Docker logout
         if: github.ref == 'refs/heads/master' && always()
         uses: azure/container-actions/docker-logout@master
+
+      - name: Heroku login
+        if: github.ref == 'refs/heads/master'
+        uses: "actions/heroku@master"
+        with: 
+          args: "container:login"
+          secrets: |
+            $HEROKU_API_KEY
+
+      - name: Heroku push
+        if: github.ref == 'refs/heads/master'
+        uses: "actions/heroku@master"
+        with: 
+          args: "container:push -a $HEROKU_APP web"
+          secrets: |
+            $HEROKU_API_KEY
+
+      - name: Heroku release
+        if: github.ref == 'refs/heads/master'
+        uses: "actions/heroku@master"
+        with: 
+          args: "container:release -a $HEROKU_APP web"
+          secrets: |
+            $HEROKU_API_KEY
