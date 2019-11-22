@@ -4,7 +4,6 @@
 
 ## Table of Contents
 - [Creating a workflow file](#creating-a-workflow-file)
-- [Enabling github action in the repository](#enabling-github-action-in-the-repository)
 - [Triggering a workflow](#triggering-a-workflow)
 - [Deploying to heroku](#deploying-to-heroku)
 - [Setting branch protection](#setting-branch-protection)
@@ -39,15 +38,10 @@
 
 **_NOTE:_** You can create more than one workflow in the repository.
 
-## Enabling github action in the repository
-
-TODO
-
 
 ## Triggering a workflow
 Workflow will start by the event defined above.  
 For example `push` event, it will be triggered when someone pushes some codes into the repository
-
 
 ## Deploying to heroku
 ### How to create app

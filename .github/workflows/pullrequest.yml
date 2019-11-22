@@ -1,5 +1,5 @@
 name: Nodejs
-# This workflow is triggered on pullrequest to the repository.
+# This workflow is triggered when open pull request in the repository.
 on: pull_request
 
 jobs:
