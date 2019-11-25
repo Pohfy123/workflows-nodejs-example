@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      HEROKU_APP: pohfy-nodejs-example
+      HEROKU_APP: <yourname>-cicd-workshop
     steps:
       - uses: actions/checkout@v1
 
