@@ -1,6 +1,6 @@
-![](https://github.com/Pohfy123/workflows-nodejs-example/workflows/Nodejs/badge.svg)
+![](https://github.com/agoda-com/workflows-cicd-workshop/workflows/Nodejs/badge.svg)
 
-# Nodejs workflows example
+# Workflows CICD Workshop
 
 ## Table of Contents
 - [Creating a workflow file](#creating-a-workflow-file)
@@ -41,7 +41,9 @@
 
 ## Triggering a workflow
 Workflow will start by the event defined above.  
-For example `push` event, it will be triggered when someone pushes some codes into the repository
+For example,
+- `push` event, it will be triggered when someone pushes some codes into the repository
+- `pull_request` event, it will be triggered when somone open an pull request
 
 ## Deploying to heroku
 ### How to create app
@@ -49,7 +51,7 @@ For example `push` event, it will be triggered when someone pushes some codes in
 2. Verify your account in registered e-mail
 3. Log in to your account
 4. Select `New` (on the right-top) and then `Create new app`
-5. Fill `App Name` e.g. `<your_name>-nodejs-example`
+5. Fill `App Name` e.g. `<your_name>-cicd-workshop`
 
 ### How to integrate to the workflow
 1. Click on your avatar on the right-top corner
@@ -75,7 +77,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      HEROKU_APP: <your_name>-nodejs-example
+      HEROKU_APP: <your_name>-cicd-workshop
     steps:
       - uses: actions/checkout@v1
 
